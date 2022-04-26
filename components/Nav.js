@@ -121,8 +121,9 @@ export function Nav(){
                 },
               }}
             >
+              <a href='/'>
               <HomeIcon />
-              <HomeIcon color="primary" />
+              <HomeIcon color="primary" /></a>
             </Box>
           </Typography>
 
