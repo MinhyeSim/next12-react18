@@ -1,7 +1,8 @@
 import React,{useState} from 'react'
 import { useDispatch } from 'react-redux';
-import {userActions} from '../../redux/reducers/userReducer.ts';
-import tableStyles from '../common/styles/table.module.css'
+import { addUser } from '@/store/actions';
+import tableStyles from "@/styles/Table.module.css"
+
 export default function  Login(){
     const [login, setLogin] =useState({
         userid:'', password:''
@@ -15,7 +16,6 @@ export default function  Login(){
     return <form onSubmit={
         e => {
             e.preventDefault()
-            alert(' 진행 1: 로그인 클릭 ');
             dispatch(userActions.loginRequest(login))
             setLogin({
                 userid:'', password:''
@@ -23,6 +23,8 @@ export default function  Login(){
         }
     }
     >
+
+        
         <table className={tableStyles.table}>
             <thead>
                 <tr>

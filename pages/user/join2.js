@@ -10,37 +10,35 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import * as yup from 'yup';
-import _ from '@lodash';
-import Image from 'next/image';
-//import './user/style/UserLayout.scss'
-//import "./user/style/UserRegister.scss"
-//import { CheckList } from '..';
+import _ from '../@lodash';
+import Image from 'next/image'
 import { joinRequest } from '../../redux/reducers/userReducer.ts'
-/**
- * 생년월일/나이/핸드폰번호 추가하기. 
- * Form Validation Schema
- */
+// import './styles/UserLayout.scss'
+// import "./styles/UserRegister.scss"
+// import { CheckList } from '..';
+
+
 const schema = yup.object().shape({
-  username: yup.string().required('사용자 ID을 입력하세요'),
+  userid: yup.string().required('사용자 ID를 입력하시오'),
   name: yup.string().required('사용자 이름을 입력하시오'),
-  email : yup.string().required('이메일을 입력하시오'),
-  telephone: yup.string().required('전화번호를 입력하시오'),
+  email: yup.string().required('이메일을 입력하시오'),
+  phone: yup.string().required('전화번호를 입력하시오'),
   password: yup
     .string()
     .required('비밀번호를 입력하시오')
-    .min(1, '비밀번호가 너무 짧습니다. 최소 1자 이상 되어야 합니다. '),
+    .min(1, '비밀번호가 너무 짧습니다. 최소 1자 이상 되어야 합니다'),
   passwordConfirm: yup.string().oneOf([yup.ref('password'), null], '비밀번호가 일치해야 합니다'),
 
 });
 
 const defaultValues = {
   userid: '',
-  password:'',
-  email:'',
-  name: '',
+  password: '',  
+  email: '',
+  name: '',  
   phone: '',
-  birth:'',
-  address:''
+  birth: '',
+  address: ''
 };
 
 export default function Join() {
@@ -53,9 +51,8 @@ export default function Join() {
 
   const { isValid, dirtyFields, errors } = formState;
 
-  function onSubmit() {
-    reset(defaultValues);
-  }
+  //const onSubmit = () => reset(defaultValues);
+  
 
   return (
     <>
@@ -73,7 +70,7 @@ export default function Join() {
                   animate={{ opacity: 1, transition: { delay: 0.2 } }}
                 >
                   <div className="flex items-center mb-48">
-                    <Image src={"/user/paper-pencil.png"}  alt="me" width="64" height="64" />
+                    <Image src={"/user/paper-pencil.jpg"}  alt="me" width="64" height="64" />
                     <div className="border-l-1 mr-4 w-1 h-40" />
                     <div>
                       <Typography className="text-24 font-semibold logo-text" color="inherit">
@@ -90,8 +87,8 @@ export default function Join() {
                 <form
                   name="registerForm"
                   noValidate
-                  className="flex flex-col justify-center w-full" 
-                  onSubmit={handleSubmit(async (data) => {await dispatch(joinRequest({...data,}))})}                 
+                  className="flex flex-col justify-center w-full"         
+                  onSubmit={handleSubmit(async (data) => { await dispatch(joinRequest({...data,}))})}         
                 >
                   <Controller
                     name="userid"
@@ -138,7 +135,7 @@ export default function Join() {
                   />
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                  <Controller
+                    <Controller
                     name="phone"
                     control={control}
                     render={({ field }) => (
@@ -149,6 +146,25 @@ export default function Join() {
                         type="text"
                         error={!!errors.phone}
                         helperText={errors?.phone?.message}
+                        variant="outlined"
+                        required
+                        fullWidth
+                      />
+                    )}
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                  <Controller
+                    name="email"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        className="mb-16"
+                        label="email"
+                        type="text"
+                        error={!!errors.email}
+                        helperText={errors?.email?.message}
                         variant="outlined"
                         required
                         fullWidth
@@ -234,7 +250,7 @@ export default function Join() {
                     color="primary"
                     className="w-full mx-auto mt-16"
                     aria-label="Register"
-                    disabled={_.isEmpty(dirtyFields) || !isValid}
+                    
                     type="submit"
                   >
                     Create an account
@@ -272,9 +288,6 @@ export default function Join() {
             </div>
           </motion.div>
         </div>
-        {/* <div style={{marginTop: "-442px"}}>
-        <CheckList/>
-        </div> */}
     </>
   );
 }

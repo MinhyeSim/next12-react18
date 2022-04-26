@@ -1,3 +1,1 @@
-export default function removeGame(){
-    retun (<></>)
-}
+import tableStyles from '../../styles/Table.module.css'
