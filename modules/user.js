@@ -8,7 +8,7 @@ const USER_LOGIN_SUCCESS = 'user/USEF_LOISNH'
 // 1. 타입(=액션)
 
 export const userJoin = ceateAction(USER_JOIN, payload => payload)
-export userJoinSaga = createRequestSaga(USER_JOIN, api.userJoin)
+const userJoinSaga = createRequestSaga(USER_JOIN, api.userJoin)
 // 2. 액션 생성
 
 

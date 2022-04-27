@@ -158,5 +158,6 @@ const UserJoin = ({ onSubmit, onchange, form }) =>{
           </Container>
         </ThemeProvider>
               
-      )
+      );
+}
   export default UserJoin
