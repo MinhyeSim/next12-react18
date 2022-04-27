@@ -1,23 +1,47 @@
-import { createRequire } from "module"
-import { HYDRATE } from "next-redux-wrapper"
+import {createAction, handleActions} from 'redux-actions'
+import {call, delay, put, takeLatest} from 'redux-saga/effects'
+import * as api from '@/apis/api'
+import createRequestSaga from '@/apis/createRequestSaga'
+import {HYDRATE} from "next-redux-wrapper"
 
-const USER_JOIN = 'user/USER_JSON'
-const USER_JOIN_SUCCESS = 'user_SER_JOIN'
+const USER_JOIN = 'user/USER_JOIN'
+const USER_JOIN_SUCCESS = 'user/USER_JOIN_SUCCESS'
 const USER_LOGIN = 'user/USER_LOGIN'
-const USER_LOGIN_SUCCESS = 'user/USEF_LOISNH'
-// 1. 타입(=액션)
+const USER_LOGIN_SUCCESS = 'user/USER_LOGIN_SUCCESS'
 
-export const userJoin = ceateAction(USER_JOIN, payload => payload)
+export const userJoin = createAction(USER_JOIN, payload => payload)
+export const userLogin = createAction(USER_LOGIN, payload => payload)
+
 const userJoinSaga = createRequestSaga(USER_JOIN, api.userJoin)
-// 2. 액션 생성
+const userLoginSaga = createRequestSaga(USER_LOGIN, api.userLogin)
 
+export function* userSaga() {
+    
+    yield takeLatest(USER_JOIN, userJoinSaga)
+    yield takeLatest(USER_LOGIN, userLoginSaga)
+}
+
+const initialState = {
+    users: [],
+    loginUser: {
+        isLogginIn: false,
+        data: null
+    }
+}
 
 const user = handleActions({
-    [HYDRATE]: (state, aciton) => ({
+    [HYDRATE]: (state, action) => ({
         ...state,
         post: action.payload
+    }),
+    [USER_JOIN_SUCCESS]: (state, action) => ({
+        ...state,
+        post: action.payload
+    }),
+    [USER_LOGIN_SUCCESS]: (state, action) => ({
+        ...state,
+        users: action.payload
     })
-})
-// 3. (SSR) [ ] 동적으로 키를 할당
+}, initialState);
 
 export default user;
